@@ -23,10 +23,10 @@ This tool takes a blank Excel timesheet template and a details file containing p
 
 2. Copy the example details file:
    ```bash
-   cp details.example.toml details.toml
+   cp details.example.yaml details.yaml
    ```
 
-3. Edit `details.toml` with your information
+3. Edit `details.yaml` with your information
 
 ## Usage
 
@@ -35,7 +35,7 @@ uv run timesheet-filler
 ```
 
 This will:
-1. Read your details from `details.toml`
+1. Read your details from `details.yaml`
 2. Fill in the blank timesheet template
 3. Export all 26 pay periods as separate PDFs to `output/`
 
@@ -44,7 +44,7 @@ This will:
 ```bash
 uv run timesheet-filler --help
 uv run timesheet-filler --template path/to/template.xlsx
-uv run timesheet-filler --details path/to/details.toml
+uv run timesheet-filler --details path/to/details.yaml
 uv run timesheet-filler --output-dir path/to/output
 uv run timesheet-filler --year 27  # For fiscal year 2027
 ```
@@ -81,7 +81,7 @@ The following fields are filled from the details file:
 | 745A9M | 6150 | 0.5 (50%) |
 | 745A9B | 6150 | 0.5 (50%) |
 
-Note: Percentages are entered as decimals (0.5 = 50%) and should sum to 1.0.
+Note: Percentages are decimals (0.5 = 50%) and should sum to 1.0.
 
 ### Auto-filled
 - **Employee Signature Date**: Today's date (on all sheets)

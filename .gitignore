@@ -9,8 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
-# User's personal details (use details.example.toml as template)
-details.toml
+# User's personal details (use details.example.yaml as template)
+details.yaml
 
 # Generated output
 output/

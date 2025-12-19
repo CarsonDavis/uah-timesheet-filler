@@ -22,8 +22,8 @@ def main() -> None:
     parser.add_argument(
         "--details",
         type=Path,
-        default=Path("details.toml"),
-        help="Path to details TOML file",
+        default=Path("details.yaml"),
+        help="Path to details YAML file",
     )
     parser.add_argument(
         "--output-dir",
@@ -46,13 +46,13 @@ def main() -> None:
 
     if not args.details.exists():
         print(f"Error: Details file not found: {args.details}")
-        print("Hint: Copy details.example.toml to details.toml and fill in your info")
+        print("Hint: Copy details.example.yaml to details.yaml and fill in your info")
         return
 
     # Load config
     print(f"Loading config from {args.details}...")
     config = load_config(args.details)
-    print(f"  Name: {config.name} {config.last_name}")
+    print(f"  Name: {config.name}")
     print(f"  A#: {config.a_number}")
     print(f"  Labor entries: {len(config.labor)}")
 

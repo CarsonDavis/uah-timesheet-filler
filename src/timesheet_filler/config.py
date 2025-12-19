@@ -1,6 +1,6 @@
-"""Configuration loading from TOML files."""
+"""Configuration loading from YAML files."""
 
-import tomllib
+import yaml
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -34,27 +34,26 @@ class PersonConfig:
 
 
 def load_config(path: Path) -> PersonConfig:
-    """Load configuration from a TOML file."""
-    with open(path, "rb") as f:
-        data = tomllib.load(f)
+    """Load configuration from a YAML file."""
+    with open(path) as f:
+        data = yaml.safe_load(f)
 
-    person = data["person"]
     labor_entries = [
         LaborEntry(
-            org_index=entry["org_index"],
-            account_code=entry["account_code"],
-            percent=entry["percent"],
+            org_index=str(entry["org_index"]),
+            account_code=str(entry["account_code"]),
+            percent=str(entry["percent"]),
         )
         for entry in data.get("labor", [])
     ]
 
     return PersonConfig(
-        name=person["name"],
-        a_number=person["a_number"],
-        position_number=person["position_number"],
-        title=person["title"],
-        department=person["department"],
-        home_labor=person["home_labor"],
-        fte=person["fte"],
+        name=str(data["name"]),
+        a_number=str(data["a_number"]),
+        position_number=str(data["position_number"]),
+        title=str(data["title"]),
+        department=str(data["department"]),
+        home_labor=str(data["home_labor"]),
+        fte=str(data["fte"]),
         labor=labor_entries,
     )
