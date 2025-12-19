@@ -6,26 +6,61 @@ Automates filling UAH ESSC Excel timesheets and exporting them as PDFs.
 
 This tool takes a blank Excel timesheet template and a details file containing personal information, fills in the first sheet with the provided data (which auto-populates the remaining sheets via formulas), and exports each sheet as a PDF with a specific naming convention.
 
-## Project Structure
+## Requirements
 
-```
-timesheet-filler/
-├── src/timesheet_filler/   # Source code
-├── details.toml            # Your personal information (copy from example)
-├── details.example.toml    # Example details file
-├── template.xlsx           # Blank timesheet template
-├── pyproject.toml
-└── README.md
-```
+- Python 3.12+
+- [uv](https://docs.astral.sh/uv/) for package management
+- **Microsoft Excel** (macOS) or **LibreOffice** for PDF export
 
 ## Setup
 
-1. Copy the example details file:
+1. Clone this repo and install dependencies:
+   ```bash
+   git clone git@github.com:CarsonDavis/uah-timesheet-filler.git
+   cd uah-timesheet-filler
+   uv sync
+   ```
+
+2. Copy the example details file:
    ```bash
    cp details.example.toml details.toml
    ```
 
-2. Edit `details.toml` with your information
+3. Edit `details.toml` with your information
+
+## Usage
+
+```bash
+uv run timesheet-filler
+```
+
+This will:
+1. Read your details from `details.toml`
+2. Fill in the blank timesheet template
+3. Export all 26 pay periods as separate PDFs to `output/`
+
+### Options
+
+```bash
+uv run timesheet-filler --help
+uv run timesheet-filler --template path/to/template.xlsx
+uv run timesheet-filler --details path/to/details.toml
+uv run timesheet-filler --output-dir path/to/output
+uv run timesheet-filler --year 27  # For fiscal year 2027
+```
+
+## PDF Naming Convention
+
+Files are named: `{LastName} {BWPeriod}-{Year}.pdf`
+
+Examples:
+- BW1: `Smith 1-26.pdf`
+- BW26: `Smith 26-26.pdf`
+
+## Upload
+
+Completed timesheets are uploaded here:
+https://docs.google.com/forms/d/e/1FAIpQLScCJ4kWFv0Qf-jHWDf_5NKYtlvG_5Oa46kC-NQ7utZvsubGVQ/viewform
 
 ## Fields
 
@@ -34,54 +69,20 @@ The following fields are filled from the details file:
 ### Header Information
 | Field | Example |
 |-------|---------|
-| Payroll ID | 2025-22 |
 | Name | Carson |
 | A# | A12345678 |
 | Position # | 342973 |
 | Title | Research Scientist III Step 3 |
-| Department | Earth System Science Center |
-| Pay Period | 10/01/25 to 10/14/25 |
 | FTE | 1.00 |
-| Home Labor | 740001 |
-| Check Date | 10/24/25 |
 
 ### Labor Distribution Table
 | 6 digit Org/Index | Account Code | % Distribution |
 |-------------------|--------------|----------------|
-| 745A9M | 6150 | 50% |
-| 745A9B | 6150 | 50% |
+| 745A9M | 6150 | 0.5 (50%) |
+| 745A9B | 6150 | 0.5 (50%) |
 
-### Signature
-- **Employee Signature Date**: Auto-filled with today's date
+Note: Percentages are entered as decimals (0.5 = 50%) and should sum to 1.0.
 
-## PDF Naming Convention
-
-Files are named: `{LastName} {BWPeriod}-{Year}`
-
-Examples:
-- BW1: `Smith 1-26`
-- BW26: `Smith 26-26`
-
-## Upload
-
-Completed timesheets are uploaded here:
-https://docs.google.com/forms/d/e/1FAIpQLScCJ4kWFv0Qf-jHWDf_5NKYtlvG_5Oa46kC-NQ7utZvsubGVQ/viewform
-
-## Installation
-
-```bash
-uv sync
-```
-
-## Usage
-
-```bash
-uv run timesheet-filler
-```
-
-## Development
-
-This project uses:
-- **uv** for package management
-- **ruff** for linting
-- **pyright** for type checking
+### Auto-filled
+- **Employee Signature Date**: Today's date (on all sheets)
+- **Pay Period / Check Date**: Calculated from template formulas
