@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# User's personal details (use details.example.toml as template)
+details.toml
+
+# Generated output
+output/
+*.pdf
